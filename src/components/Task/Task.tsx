@@ -3,13 +3,23 @@ import styled from "styled-components";
 import { convetDateTo_Day_Month_Year } from "../../helpers";
 
 export interface TaskProps {
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
   dateStart: Date;
   dateEnd: Date;
-  dateCreated: Date;
+  dateCreated?: Date;
   isFinished?: boolean;
   customShadowColor?: string;
+}
+
+export interface EmptyTask {
+  title?: string | "";
+  content?: string | "";
+  dateStart?: Date | "";
+  dateEnd?: Date | "";
+  dateCreated?: Date | "";
+  isFinished?: boolean | "";
+  customShadowColor?: string | "";
 }
 
 export enum TaskStatus {
@@ -71,7 +81,7 @@ export const Task: React.FC<TaskProps> = ({
         <div className="task_status">{task_statuses[getTaskStatus()]}</div>
       </div>
       <h3 className="task_title">{title}</h3>
-      <div className="task_content">{content}</div>
+      {content && <div className="task_content">{content}</div>}
     </TaskStyled>
   );
 };
