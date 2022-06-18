@@ -21,9 +21,6 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
   }, [handleOnClose, setTasks, task]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    console.log(e.target.id);
-
     if (e.target.id === "category") {
       setTask((curr) => {
         return {

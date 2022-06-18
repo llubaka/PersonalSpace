@@ -2,16 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { convetDateTo_Day_Month_Year } from "../../helpers";
 
-export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
-  title?: string;
-  content?: string;
-  dateStart: Date;
-  dateEnd: Date;
-  dateCreated?: Date;
-  isFinished?: boolean;
-  customShadowColor?: string;
-}
-
 export interface EmptyTask {
   title?: string | "";
   content?: string | "";
@@ -29,6 +19,15 @@ export enum TaskStatus {
   FINISHED_SUCCESSFUL,
 }
 
+export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  content?: string;
+  dateStart: Date;
+  dateEnd: Date;
+  dateCreated?: Date;
+  isFinished?: boolean;
+  customShadowColor?: string;
+}
 export const Task: React.FC<TaskProps> = ({
   title,
   content,
