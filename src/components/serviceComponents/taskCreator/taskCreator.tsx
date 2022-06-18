@@ -7,7 +7,7 @@ import { EmptySingleTask, SingleTask } from "../../../utils/interfaces";
 import { Button } from "../../Button";
 import { Input } from "../../Input";
 
-export interface TaskCreatorProps {
+export interface TaskCreatorProps extends React.HTMLAttributes<HTMLDivElement> {
   handleOnClose: () => void;
 }
 
@@ -41,6 +41,10 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
   }, [handleOnClose, setTasks, task]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsValid((curr) => {
+      return { ...curr, [e.target.id]: validateTaskEntity(e.target.id, e.target.value) };
+    });
+
     if (e.target.id === TaskProps.CATEGORY) {
       setTask((curr) => {
         return {
@@ -64,9 +68,16 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
     });
   };
 
+  const handleOnClickOutside = useCallback(
+    (e: React.MouseEvent) => {
+      if ((e.target as Element).id === "task_creator_container") handleOnClose();
+    },
+    [handleOnClose]
+  );
+
   return (
     <TaskCreatorStyled>
-      <div className="task_creator_container">
+      <div id="task_creator_container" className="task_creator_container" onClick={handleOnClickOutside}>
         <div className="task_creator_container--inner-container">
           <h1 className="task_creator_title">Material Design Text Input With No Extra Markup</h1>
           <div className="input_container">
