@@ -20,7 +20,7 @@ export enum TaskStatus {
 }
 
 export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
-  title?: string;
+  title: string;
   content?: string;
   dateStart: Date;
   dateEnd: Date;

@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { useTaskContext } from "../../../contexts/taskContext";
-import { createEmptyTask } from "../../../helpers";
+import { createEmptyTask, validateTaskEntity, validateTaskObject } from "../../../helpers";
+import { TaskProps, ValidationState } from "../../../utils/enums";
 import { EmptySingleTask, SingleTask } from "../../../utils/interfaces";
 import { Button } from "../../Button";
 import { Input } from "../../Input";
@@ -12,16 +13,35 @@ export interface TaskCreatorProps {
 
 export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
   const [task, setTask] = useState<EmptySingleTask>(createEmptyTask());
+  const [isValid, setIsValid] = useState({
+    category: ValidationState.NEUTRAL,
+    title: ValidationState.NEUTRAL,
+    content: ValidationState.NEUTRAL,
+    dateStart: ValidationState.NEUTRAL,
+    dateEnd: ValidationState.NEUTRAL,
+    dateCreated: ValidationState.NEUTRAL,
+    customShadowColor: ValidationState.NEUTRAL,
+  });
 
   const { setTasks } = useTaskContext();
 
   const handleOnClick = useCallback(() => {
-    handleOnClose();
-    setTasks((curr: Array<SingleTask>) => [...curr, task]);
+    const { isValid, notValidEntries } = validateTaskObject(task);
+
+    if (isValid) {
+      handleOnClose();
+      setTasks((curr: Array<SingleTask>) => [...curr, task]);
+    }
+
+    notValidEntries.forEach((nve) => {
+      setIsValid((curr) => {
+        return { ...curr, [nve]: ValidationState.NOT_VALID };
+      });
+    });
   }, [handleOnClose, setTasks, task]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === "category") {
+    if (e.target.id === TaskProps.CATEGORY) {
       setTask((curr) => {
         return {
           ...curr,
@@ -38,6 +58,12 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
     }
   };
 
+  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsValid((curr) => {
+      return { ...curr, [e.target.id]: validateTaskEntity(e.target.id, e.target.value) };
+    });
+  };
+
   return (
     <TaskCreatorStyled>
       <div className="task_creator_container">
@@ -45,61 +71,75 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
           <h1 className="task_creator_title">Material Design Text Input With No Extra Markup</h1>
           <div className="input_container">
             <Input
-              key="category"
+              key={TaskProps.CATEGORY}
               placeholder="Category"
-              id="category"
-              name="category"
+              id={TaskProps.CATEGORY}
+              name={TaskProps.CATEGORY}
               value={task.category}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.CATEGORY]}
               required
             />
             <Input
-              key="title"
+              key={TaskProps.TITLE}
               placeholder="Title*"
-              id="title"
-              name="title"
+              id={TaskProps.TITLE}
+              name={TaskProps.TITLE}
               value={task.task.title}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.TITLE]}
               required
             />
             <Input
-              key="content"
+              key={TaskProps.CONTENT}
               placeholder="Content"
-              id="content"
-              name="content"
+              id={TaskProps.CONTENT}
+              name={TaskProps.CONTENT}
               value={task.task.content}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.CONTENT]}
               required
             />
             <Input
-              key="dateStart"
+              key={TaskProps.DATE_START}
               placeholder="Start date*"
-              id="dateStart"
-              name="dateStart"
+              id={TaskProps.DATE_START}
+              name={TaskProps.DATE_START}
               value={task.task.dateStart ? task.task.dateStart.toString() : ""}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.DATE_START]}
               required
             />
             <Input
-              key="dateEnd"
+              key={TaskProps.DATE_END}
               placeholder="End date*"
-              id="dateEnd"
-              name="dateEnd"
+              id={TaskProps.DATE_END}
+              name={TaskProps.DATE_END}
               value={task.task.dateEnd ? task.task.dateEnd.toString() : ""}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.DATE_END]}
               required
             />
             <Input
-              key="customShadowColor"
+              key={TaskProps.CUSTOM_SHADOW_COLOR}
               placeholder="Custom shadow color"
-              id="customShadowColor"
-              name="customShadowColor"
+              id={TaskProps.CUSTOM_SHADOW_COLOR}
+              name={TaskProps.CUSTOM_SHADOW_COLOR}
               value={task.task.customShadowColor}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
+              isValid={isValid[TaskProps.CUSTOM_SHADOW_COLOR]}
               required
             />
           </div>
-          <Button onClick={handleOnClick}>Submit</Button>
+          <Button onClick={handleOnClick} disabled={!validateTaskObject(task).isValid}>
+            Submit
+          </Button>
         </div>
       </div>
     </TaskCreatorStyled>
