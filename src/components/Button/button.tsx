@@ -1,20 +1,28 @@
 import React from "react";
 import styled from "styled-components";
 
-interface ButtonProps {
-  children: React.ReactNode;
-  color: string;
-}
-export const Button: React.FC<ButtonProps> = ({ children, color }) => {
-  return <ButtonStyled color={color}>{children}</ButtonStyled>;
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {}
+
+export const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
+  return <ButtonStyled {...props}>{children}</ButtonStyled>;
 };
 
-const ButtonStyled = styled.button<{ color: string }>((props) => {
+const ButtonStyled = styled.button<{}>(() => {
   return {
-    color: props.color,
-    border: "1px",
+    border: "none",
+    background: "#1abc9c",
+    cursor: "pointer",
+    borderRadius: "3px",
+    padding: "6px",
+    marginBottom: "10px",
+    width: "200px",
+    color: "white",
+    marginLeft: "25px",
+    boxShadow: "0 3px 6px 0 rgba(0,0,0,0.2)",
+    transition: "all 0.3s ease-in-out",
     "&:hover": {
-      background: "green",
+      transform: "translateY(-3px)",
+      boxShadow: "0 6px 6px 0 rgba(0,0,0,0.2)",
     },
   };
 });

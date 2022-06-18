@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { convetDateTo_Day_Month_Year } from "../../helpers";
 
-export interface TaskProps {
+export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   content?: string;
   dateStart: Date;
@@ -37,6 +37,7 @@ export const Task: React.FC<TaskProps> = ({
   dateCreated,
   isFinished,
   customShadowColor,
+  ...props
 }) => {
   const task_statuses = useMemo(() => {
     return {
@@ -57,7 +58,7 @@ export const Task: React.FC<TaskProps> = ({
   }, [dateEnd, dateStart, isFinished]);
 
   return (
-    <TaskStyled taskStatus={getTaskStatus()} customShadowColor={customShadowColor}>
+    <TaskStyled taskStatus={getTaskStatus()} customShadowColor={customShadowColor} {...props}>
       <div className="task_header">
         <div className="task_dates">
           <div className="task_dates-inner_container">

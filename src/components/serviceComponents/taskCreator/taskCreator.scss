@@ -1,8 +1,7 @@
 $color: #1abc9c;
 
-h1, input::-webkit-input-placeholder, button {
+h1, input::-webkit-input-placeholder {
   font-family: 'roboto', sans-serif;
-  transition: all 0.3s ease-in-out;
 }
 
 h1 {
@@ -67,23 +66,6 @@ input {
       transform: translateY(-20px);
       visibility: visible !important;
     }
-  }
-}
-
-button {
-  border: none;
-  background: $color;
-  cursor: pointer;
-  border-radius: 3px;
-  padding: 6px;
-  margin-bottom: 10px;
-  width: 200px;
-  color: white;
-  margin-left: 25px;
-  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.2);
-  &:hover { 
-    transform: translateY(-3px);
-    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.2);
   }
 }
 

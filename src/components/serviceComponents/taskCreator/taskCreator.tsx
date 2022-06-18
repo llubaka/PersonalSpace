@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useTaskContext } from "../../../contexts/taskContext";
 import { createEmptyTask } from "../../../helpers";
 import { EmptySingleTask, SingleTask } from "../../../utils/interfaces";
+import Button from "../../Button";
 import "./taskCreator.scss";
 
 export interface TaskCreatorProps {
@@ -93,7 +94,7 @@ const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
             required
           />
         </div>
-        <button onClick={handleOnClick}>Submit</button>
+        <Button onClick={handleOnClick}>Submit</Button>
       </div>
     </div>
   );
