@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTaskContext } from "../../../contexts/taskContext";
 import { createEmptyTask, validateTaskEntity, validateTaskObject } from "../../../helpers";
@@ -25,7 +25,7 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
 
   const { setTasks } = useTaskContext();
 
-  const handleOnClick = useCallback(() => {
+  const handleOnSubmit = useCallback(() => {
     const { isValid, notValidEntries } = validateTaskObject(task);
 
     if (isValid) {
@@ -75,6 +75,16 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
     [handleOnClose]
   );
 
+  useEffect(() => {
+    const onKeyDownCallback = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleOnClose();
+      else if (e.key === "Enter") handleOnSubmit();
+    };
+    document.addEventListener("keydown", onKeyDownCallback);
+
+    return () => document.removeEventListener("keydown", onKeyDownCallback);
+  }, [handleOnClose, handleOnSubmit]);
+
   return (
     <TaskCreatorStyled>
       <div id="task_creator_container" className="task_creator_container" onClick={handleOnClickOutside}>
@@ -119,6 +129,7 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
               placeholder="Start date*"
               id={TaskProps.DATE_START}
               name={TaskProps.DATE_START}
+              type="date"
               value={task.task.dateStart ? task.task.dateStart.toString() : ""}
               onChange={handleOnChange}
               onBlur={handleOnBlur}
@@ -130,6 +141,7 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
               placeholder="End date*"
               id={TaskProps.DATE_END}
               name={TaskProps.DATE_END}
+              type="date"
               value={task.task.dateEnd ? task.task.dateEnd.toString() : ""}
               onChange={handleOnChange}
               onBlur={handleOnBlur}
@@ -148,7 +160,7 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
               required
             />
           </div>
-          <Button onClick={handleOnClick} disabled={!validateTaskObject(task).isValid}>
+          <Button onClick={handleOnSubmit} disabled={!validateTaskObject(task).isValid}>
             Submit
           </Button>
         </div>

@@ -54,11 +54,15 @@ export const validateContent = (content: string): ValidationState => {
 };
 
 export const validateDateStart = (dateStart: string): ValidationState => {
-  return ValidationState.VALID;
+  var m = moment(dateStart, "DD-MM-YYYY");
+
+  return m.isValid() ? ValidationState.VALID : ValidationState.NOT_VALID;
 };
 
 export const validateDateEnd = (dateEnd: string): ValidationState => {
-  return ValidationState.VALID;
+  var m = moment(dateEnd, "DD-MM-YYYY");
+
+  return m.isValid() ? ValidationState.VALID : ValidationState.NOT_VALID;
 };
 
 const validateCustomShadowColor = (customShadowColor: string): ValidationState => {
