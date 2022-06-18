@@ -1,4 +1,4 @@
-import { EmptyTask, TaskProps } from "../components/Task/Task";
+import { EmptyTask, TaskProps } from "../components/Task/task";
 
 export interface SingleTask {
   category?: string;
