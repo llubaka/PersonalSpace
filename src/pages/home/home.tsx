@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
-import TaskCreator from "../../components/serviceComponents/taskCreator";
-import Task from "../../components/Task";
+import { TaskCreator } from "../../components/serviceComponents/taskCreator";
+import { Task } from "../../components/Task";
 import { useTaskContext } from "../../contexts/taskContext";
 import { SingleTask } from "../../utils/interfaces";
 
-const Home = () => {
+export const Home = () => {
   const { tasks } = useTaskContext();
   const [openTaskCreator, setOpenTaskCreator] = useState(false);
 
@@ -31,5 +31,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/home";
-import NotFound from "../pages/notFound";
+import { Home } from "../pages/home";
+import { NotFound } from "../pages/notFound";
 import { SingleTask } from "../utils/interfaces";
 import "../styles/app.css";
 import { TaskContext } from "../contexts/taskContext";

@@ -2,14 +2,14 @@ import React, { useCallback, useState } from "react";
 import { useTaskContext } from "../../../contexts/taskContext";
 import { createEmptyTask } from "../../../helpers";
 import { EmptySingleTask, SingleTask } from "../../../utils/interfaces";
-import Button from "../../Button";
+import { Button } from "../../Button";
 import "./taskCreator.scss";
 
 export interface TaskCreatorProps {
   handleOnClose: () => void;
 }
 
-const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
+export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
   const [task, setTask] = useState<EmptySingleTask>(createEmptyTask());
 
   const { setTasks } = useTaskContext();
