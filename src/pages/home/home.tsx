@@ -2,13 +2,11 @@ import { useCallback, useState } from "react";
 import { Priority } from "../../components/Priority";
 import { PriorityCreator } from "../../components/serviceComponents/priorityCreator";
 import { TaskCreator } from "../../components/serviceComponents/taskCreator";
-import { Task } from "../../components/Task";
+import TaskView from "../../components/TaskView/taskView";
 import { usePriorityContext } from "../../contexts/priorityContext";
-import { useTaskContext } from "../../contexts/taskContext";
-import { SinglePriority, SingleTask } from "../../utils/interfaces";
+import { SinglePriority } from "../../utils/interfaces";
 
 export const Home = () => {
-  const { tasks } = useTaskContext();
   const { priorities } = usePriorityContext();
 
   const [openTaskCreator, setOpenTaskCreator] = useState(false);
@@ -29,18 +27,9 @@ export const Home = () => {
       <button onClick={() => setOpenPriorityCreator(true)}> Open Priority Creator </button>
       {openTaskCreator && <TaskCreator handleOnClose={handleCloseTaskCreator} />}
       {openPriorityCreator && <PriorityCreator handleOnClose={handleClosePriorityCreator} />}
-      {tasks.map(({ task, category }: SingleTask) => {
-        return (
-          <Task
-            key={task.title}
-            title={task.title}
-            content={task.content}
-            dateCreated={task.dateCreated}
-            dateEnd={task.dateEnd}
-            dateStart={task.dateStart}
-          />
-        );
-      })}
+      <h2> Tasks </h2>
+      <TaskView />
+      <h2> Priorities </h2>
       {priorities.map(({ priority, category }: SinglePriority) => {
         return (
           <Priority
