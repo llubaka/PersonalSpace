@@ -51,8 +51,11 @@ export const Task: React.FC<TaskProps> = ({
     if (isFinished) return TaskStatus.FINISHED_SUCCESSFUL;
 
     const dateNow = new Date();
-    if (dateNow > dateStart && dateNow < dateEnd) return TaskStatus.IN_PROCESS;
-    else if (dateStart > dateNow) return TaskStatus.NOT_STARTED;
+    const ds = new Date(dateStart);
+    const de = new Date(dateEnd);
+
+    if (dateNow > ds && dateNow < de) return TaskStatus.IN_PROCESS;
+    else if (ds > dateNow) return TaskStatus.NOT_STARTED;
     else return TaskStatus.TIMED_OUT;
   }, [dateEnd, dateStart, isFinished]);
 
