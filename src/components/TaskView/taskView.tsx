@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTaskContext } from "../../contexts/taskContext";
 import { SingleTask } from "../../utils/interfaces";
-import { Task } from "../Task/task";
+import { Task, TaskProps } from "../Task/task";
 
 enum OrderType {
   ASCENDING,
@@ -50,6 +50,7 @@ const TaskView = () => {
       return [...curr].sort((a, b) => compareDates(a, b, OrderDate.end));
     });
   };
+
   return (
     <div>
       <button onClick={handleOrder}> Date order by start</button>
