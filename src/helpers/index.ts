@@ -1,7 +1,9 @@
+import { EmptyPriority } from "./../components/Priority/priority";
 import { EmptyTask } from "./../components/Task/task";
-import { EmptySingleTask, SingleTask } from "./../utils/interfaces";
+import { EmptySinglePriority, EmptySingleTask, SingleTask } from "./../utils/interfaces";
 import moment from "moment";
-import { TaskProps, ValidationState } from "../utils/enums";
+import { PriorityProps, TaskProps, ValidationState } from "../utils/enums";
+import { PriorityStatus } from "../components/Priority";
 
 export const convetDateTo_Day_Month_Year = (date: Date) => {
   return moment(date).format("dddd MMMM DD.MM.Y");
@@ -37,6 +39,19 @@ export const createEmptyTask = (): EmptySingleTask => {
       customShadowColor: "",
       dateCreated: "",
       isFinished: "",
+    },
+  };
+};
+
+export const createEmptyPriority = (): EmptySinglePriority => {
+  return {
+    category: "",
+    priority: {
+      title: "",
+      content: "",
+      customShadowColor: "",
+      dateCreated: "",
+      status: PriorityStatus.NOT_STARTED,
     },
   };
 };
@@ -102,6 +117,47 @@ export const validateTaskObject = (
 
   Object.keys(taskObject.task).forEach((key) => {
     const text = taskObject.task[key as keyof EmptyTask]?.toString() || "";
+    if (validateTaskEntity(key, text) === ValidationState.NOT_VALID) {
+      isValid = false;
+      notValidEntries.push(key.toString());
+    }
+  });
+
+  return { isValid, notValidEntries };
+};
+
+export const validatePriorityEntity = (validation: string, text: string): ValidationState => {
+  switch (validation) {
+    case PriorityProps.CATEGORY:
+      return validateCategory(text);
+    case PriorityProps.TITLE:
+      return validateTitle(text);
+    case PriorityProps.CONTENT:
+      return validateContent(text);
+    case PriorityProps.CUSTOM_SHADOW_COLOR:
+      return validateCustomShadowColor(text);
+
+    default:
+      return ValidationState.NEUTRAL;
+  }
+};
+
+export const validatePriorityObject = (
+  priorityObject: EmptySinglePriority
+): { isValid: boolean; notValidEntries: Array<string> } => {
+  let isValid = true;
+  let notValidEntries = [];
+
+  if (
+    validateTaskEntity(PriorityProps.CATEGORY, priorityObject[PriorityProps.CATEGORY] || "") ===
+    ValidationState.NOT_VALID
+  ) {
+    isValid = false;
+    notValidEntries.push(PriorityProps.CATEGORY);
+  }
+
+  Object.keys(priorityObject.priority).forEach((key) => {
+    const text = priorityObject.priority[key as keyof EmptyPriority]?.toString() || "";
     if (validateTaskEntity(key, text) === ValidationState.NOT_VALID) {
       isValid = false;
       notValidEntries.push(key.toString());

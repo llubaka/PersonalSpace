@@ -14,3 +14,12 @@ export enum TaskProps {
   IS_FINISHED = "isFinished",
   CUSTOM_SHADOW_COLOR = "customShadowColor",
 }
+
+export enum PriorityProps {
+  CATEGORY = "category",
+  TITLE = "title",
+  CONTENT = "content",
+  DATE_CREATED = "dateCreated",
+  STATUS = "status",
+  CUSTOM_SHADOW_COLOR = "customShadowColor",
+}
