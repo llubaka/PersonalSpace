@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTaskContext } from "../../contexts/taskContext";
 import { SingleTask } from "../../utils/interfaces";
-import { Task, TaskProps } from "../Task/task";
+import { Task } from "../Task/task";
 
 enum OrderType {
   ASCENDING,

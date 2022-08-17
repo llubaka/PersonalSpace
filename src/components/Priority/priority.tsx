@@ -8,6 +8,7 @@ export enum PriorityStatus {
 }
 
 export interface EmptyPriority {
+  id?: string;
   title: string;
   content?: string;
   dateCreated?: Date | "";

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTaskContext } from "../../../contexts/taskContext";
-import { createEmptyTask, validateTaskEntity, validateTaskObject } from "../../../helpers";
+import { createEmptyTask, generateUUID, validateTaskEntity, validateTaskObject } from "../../../helpers";
 import { TaskProps, ValidationState } from "../../../utils/enums";
 import { EmptySingleTask, SingleTask } from "../../../utils/interfaces";
 import { Button } from "../../Button";
@@ -30,7 +30,9 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
 
     if (isValid) {
       handleOnClose();
-      setTasks((curr: Array<SingleTask>) => [...curr, task]);
+      const taskWithId = { ...task, task: { ...task.task, id: generateUUID() } };
+
+      setTasks((curr: Array<SingleTask>) => [...curr, taskWithId]);
     }
 
     notValidEntries.forEach((nve) => {

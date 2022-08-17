@@ -11,6 +11,11 @@ export interface EmptySingleTask {
   task: EmptyTask;
 }
 
+export interface SinglePriority {
+  category?: string;
+  priority: PriorityPros;
+}
+
 export interface EmptySinglePriority {
   category?: string;
   priority: EmptyPriority;
@@ -21,10 +26,6 @@ export interface TasksHook {
   setTasks: React.Dispatch<React.SetStateAction<Array<SingleTask>>>;
 }
 
-export interface SinglePriority {
-  category?: string;
-  priority: PriorityPros;
-}
 export interface PriorityHook {
   priorities: Array<SinglePriority>;
   setPriorities: React.Dispatch<React.SetStateAction<Array<SinglePriority>>>;

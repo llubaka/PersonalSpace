@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { usePriorityContext } from "../../../contexts/priorityContext";
-import { createEmptyPriority, validatePriorityObject, validateTaskEntity } from "../../../helpers";
+import { createEmptyPriority, generateUUID, validatePriorityObject, validateTaskEntity } from "../../../helpers";
 import { TaskProps, ValidationState } from "../../../utils/enums";
 import { EmptySinglePriority, SinglePriority } from "../../../utils/interfaces";
 import { Button } from "../../Button";
@@ -28,7 +28,8 @@ export const PriorityCreator: React.FC<PriorityCreatorProps> = ({ handleOnClose 
 
     if (isValid) {
       handleOnClose();
-      setPriorities((curr: Array<SinglePriority>) => [...curr, priority]);
+      const priorityWithId = { ...priority, priority: { ...priority.priority, id: generateUUID() } };
+      setPriorities((curr: Array<SinglePriority>) => [...curr, priorityWithId]);
     }
 
     notValidEntries.forEach((nve) => {

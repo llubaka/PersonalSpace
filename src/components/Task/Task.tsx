@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { convetDateTo_Day_Month_Year } from "../../helpers";
 
 export interface EmptyTask {
+  id?: string;
   title?: string | "";
   content?: string | "";
   dateStart?: Date | "";
