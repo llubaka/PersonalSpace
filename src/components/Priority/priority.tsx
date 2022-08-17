@@ -34,7 +34,7 @@ export const Priority: React.FC<PriorityPros> = ({
     return {
       [PriorityStatus.NOT_STARTED]: "Not started",
       [PriorityStatus.IN_PROCESS]: "In process",
-      [PriorityStatus.FINISHED_SUCCESSFUL]: "Finished successful",
+      [PriorityStatus.FINISHED_SUCCESSFUL]: "Finished successfully",
     };
   }, []);
 

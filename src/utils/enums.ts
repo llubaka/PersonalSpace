@@ -23,3 +23,8 @@ export enum PriorityProps {
   STATUS = "status",
   CUSTOM_SHADOW_COLOR = "customShadowColor",
 }
+
+export enum LocalStorageNames {
+  TASKS = "tasks",
+  PRIORITIES = "priorities",
+}

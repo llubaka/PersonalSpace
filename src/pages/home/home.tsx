@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { Button } from "../../components/Button";
 import { Priority } from "../../components/Priority";
 import { PriorityCreator } from "../../components/serviceComponents/priorityCreator";
 import { TaskCreator } from "../../components/serviceComponents/taskCreator";
@@ -23,8 +24,8 @@ export const Home = () => {
   return (
     <div>
       Personal space
-      <button onClick={() => setOpenTaskCreator(true)}> Open Task Creator </button>
-      <button onClick={() => setOpenPriorityCreator(true)}> Open Priority Creator </button>
+      <Button onClick={() => setOpenTaskCreator(true)}> Open Task Creator </Button>
+      <Button onClick={() => setOpenPriorityCreator(true)}> Open Priority Creator </Button>
       {openTaskCreator && <TaskCreator handleOnClose={handleCloseTaskCreator} />}
       {openPriorityCreator && <PriorityCreator handleOnClose={handleClosePriorityCreator} />}
       <h2> Tasks </h2>

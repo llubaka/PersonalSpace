@@ -1,3 +1,4 @@
+import { LocalStorageNames } from "./../utils/enums";
 import { EmptyPriority } from "./../components/Priority/priority";
 import { EmptyTask } from "./../components/Task/task";
 import { EmptySinglePriority, EmptySingleTask, SingleTask } from "./../utils/interfaces";
@@ -165,4 +166,15 @@ export const validatePriorityObject = (
   });
 
   return { isValid, notValidEntries };
+};
+
+export const getLocalStorageArrayItem = (key: LocalStorageNames) => {
+  const item = localStorage.getItem(key);
+  if (item) return JSON.parse(item);
+
+  return [];
+};
+
+export const setLocalStorageArrayItem = (item: any[], key: LocalStorageNames) => {
+  localStorage.setItem(key, JSON.stringify(item));
 };
