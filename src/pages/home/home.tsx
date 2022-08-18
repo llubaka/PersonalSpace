@@ -34,6 +34,7 @@ export const Home = () => {
       {priorities.map(({ priority, category }: SinglePriority) => {
         return (
           <Priority
+            id={priority.id}
             key={priority.title}
             title={priority.title}
             content={priority.content}

@@ -17,6 +17,7 @@ export interface EmptyPriority {
 }
 
 export interface PriorityPros extends React.HTMLAttributes<HTMLDivElement> {
+  id: string;
   title: string;
   content?: string;
   dateCreated?: Date;
@@ -24,6 +25,7 @@ export interface PriorityPros extends React.HTMLAttributes<HTMLDivElement> {
   customShadowColor?: string;
 }
 export const Priority: React.FC<PriorityPros> = ({
+  id,
   title,
   content,
   dateCreated,
@@ -43,6 +45,10 @@ export const Priority: React.FC<PriorityPros> = ({
     <PriorityStyled status={status} customShadowColor={customShadowColor} {...props}>
       <div className="priority_header">
         <div className="priority_status">{priority_statuses[status]}</div>
+        <div className="priority_actions">
+          <img className="priority_edit" src="/icons/edit3.png" alt="edit icon" />
+          <img className="priority_delete" src="/icons/delete.png" alt="delete icon" />
+        </div>
       </div>
       <h3 className="priority_title">{title}</h3>
       {content && <div className="priority_content">{content}</div>}
@@ -68,7 +74,7 @@ const PriorityStyled = styled.div<{ status: PriorityStatus; customShadowColor?: 
       background: "white",
       "&:hover": {
         boxShadow: `-2px 2px 7px 3px ${color}`,
-        transform: "scale(99%)",
+        transform: "scale(99.7%)",
       },
       "& .priority_title": {
         color: "#c77824",
@@ -84,7 +90,22 @@ const PriorityStyled = styled.div<{ status: PriorityStatus; customShadowColor?: 
           color: color,
           fontSize: "17px",
           fontWeight: 700,
+          flex: 1,
         },
+      },
+      "& .priority_edit, .priority_delete": {
+        width: "24px",
+        height: "28px",
+        marginLeft: "15px",
+        "&:hover": {
+          cursor: "pointer",
+          borderRadius: "15%",
+          boxShadow: "0px 0px 27px -5px rgba(0,0,0,1)",
+          background: "rgb(143 136 136 / 25%)",
+        },
+      },
+      "& .priority_actions": {
+        display: "flex",
       },
     };
   }
