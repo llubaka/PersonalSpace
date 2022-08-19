@@ -35,7 +35,7 @@ export const Home = () => {
         return (
           <Priority
             id={priority.id}
-            key={priority.title}
+            key={priority.id}
             title={priority.title}
             content={priority.content}
             dateCreated={priority.dateCreated}

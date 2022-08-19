@@ -1,32 +1,12 @@
-import { LocalStorageNames } from "./../utils/enums";
+import { LocalStorageNames, PriorityStatus } from "./../utils/enums";
 import { EmptyPriority } from "./../components/Priority/priority";
 import { EmptyTask } from "./../components/Task/task";
-import { EmptySinglePriority, EmptySingleTask, SingleTask } from "./../utils/interfaces";
+import { EmptySinglePriority, EmptySingleTask } from "./../utils/interfaces";
 import moment from "moment";
 import { PriorityProps, TaskProps, ValidationState } from "../utils/enums";
-import { PriorityStatus } from "../components/Priority";
 
 export const convetDateTo_Day_Month_Year = (date: Date) => {
   return moment(date).format("dddd MMMM DD.MM.Y");
-};
-
-export const createTask = (
-  title: string,
-  dateEnd: Date,
-  dateStart: Date,
-  category?: string,
-  content?: string
-): SingleTask => {
-  return {
-    category,
-    task: {
-      title,
-      content,
-      dateCreated: new Date(),
-      dateEnd,
-      dateStart,
-    },
-  };
 };
 
 export const createEmptyTask = (): EmptySingleTask => {
@@ -196,4 +176,8 @@ export const generateUUID = () => {
     }
     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
+};
+
+export const isNumber = (n: any) => {
+  return !isNaN(parseFloat(n)) && !isNaN(n - 0);
 };

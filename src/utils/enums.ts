@@ -4,6 +4,12 @@ export enum ValidationState {
   VALID,
 }
 
+export enum PriorityStatus {
+  NOT_STARTED,
+  IN_PROCESS,
+  FINISHED_SUCCESSFUL,
+}
+
 export enum TaskProps {
   CATEGORY = "category",
   TITLE = "title",

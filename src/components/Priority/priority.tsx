@@ -1,11 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-
-export enum PriorityStatus {
-  NOT_STARTED,
-  IN_PROCESS,
-  FINISHED_SUCCESSFUL,
-}
+import { usePriorityContext } from "../../contexts/priorityContext";
+import { PriorityStatus } from "../../utils/enums";
+import { SinglePriority } from "../../utils/interfaces";
+import { PriorityCreator } from "../serviceComponents/priorityCreator";
 
 export interface EmptyPriority {
   id?: string;
@@ -33,6 +31,10 @@ export const Priority: React.FC<PriorityPros> = ({
   status,
   ...props
 }) => {
+  const [editPriority, setEditPriority] = useState(false);
+
+  const { setPriorities } = usePriorityContext();
+
   const priority_statuses = useMemo(() => {
     return {
       [PriorityStatus.NOT_STARTED]: "Not started",
@@ -41,18 +43,33 @@ export const Priority: React.FC<PriorityPros> = ({
     };
   }, []);
 
+  const deletePriority = useCallback(() => {
+    setPriorities((curr: SinglePriority[]) => curr.filter((pr) => pr.priority.id !== id));
+  }, [id, setPriorities]);
+
+  const handleClosePriorityCreator = useCallback(() => {
+    setEditPriority(false);
+  }, []);
+
+  const handleOpenPriorityCreator = useCallback(() => {
+    setEditPriority(true);
+  }, []);
+
   return (
-    <PriorityStyled status={status} customShadowColor={customShadowColor} {...props}>
-      <div className="priority_header">
-        <div className="priority_status">{priority_statuses[status]}</div>
-        <div className="priority_actions">
-          <img className="priority_edit" src="/icons/edit3.png" alt="edit icon" />
-          <img className="priority_delete" src="/icons/delete.png" alt="delete icon" />
+    <>
+      {editPriority && <PriorityCreator id={id} handleOnClose={handleClosePriorityCreator} />}
+      <PriorityStyled status={status} customShadowColor={customShadowColor} {...props}>
+        <div className="priority_header">
+          <div className="priority_status">{priority_statuses[status]}</div>
+          <div className="priority_actions">
+            <img className="priority_edit" src="/icons/edit3.png" alt="edit icon" onClick={handleOpenPriorityCreator} />
+            <img className="priority_delete" src="/icons/delete.png" alt="delete icon" onClick={deletePriority} />
+          </div>
         </div>
-      </div>
-      <h3 className="priority_title">{title}</h3>
-      {content && <div className="priority_content">{content}</div>}
-    </PriorityStyled>
+        <h3 className="priority_title">{title}</h3>
+        {content && <div className="priority_content">{content}</div>}
+      </PriorityStyled>
+    </>
   );
 };
 

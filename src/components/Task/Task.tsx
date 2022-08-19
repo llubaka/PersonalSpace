@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
+import { useTaskContext } from "../../contexts/taskContext";
 import { convetDateTo_Day_Month_Year } from "../../helpers";
+import { SingleTask } from "../../utils/interfaces";
 
 export interface EmptyTask {
   id?: string;
@@ -21,6 +23,7 @@ export enum TaskStatus {
 }
 
 export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
+  id: string;
   title: string;
   content?: string;
   dateStart: Date;
@@ -30,6 +33,7 @@ export interface TaskProps extends React.HTMLAttributes<HTMLDivElement> {
   customShadowColor?: string;
 }
 export const Task: React.FC<TaskProps> = ({
+  id,
   title,
   content,
   dateStart,
@@ -39,6 +43,12 @@ export const Task: React.FC<TaskProps> = ({
   customShadowColor,
   ...props
 }) => {
+  const { setTasks } = useTaskContext();
+
+  const deleteTask = useCallback(() => {
+    setTasks((curr: SingleTask[]) => curr.filter((tsk) => tsk.task.id !== id));
+  }, [id, setTasks]);
+
   const task_statuses = useMemo(() => {
     return {
       [TaskStatus.NOT_STARTED]: "Not started",
@@ -85,7 +95,7 @@ export const Task: React.FC<TaskProps> = ({
         <div className="task_status">{task_statuses[getTaskStatus()]}</div>
         <div className="priority_actions">
           <img className="priority_edit" src="/icons/edit3.png" alt="edit icon" />
-          <img className="priority_delete" src="/icons/delete.png" alt="delete icon" />
+          <img className="priority_delete" src="/icons/delete.png" alt="delete icon" onClick={deleteTask} />
         </div>
       </div>
       <h3 className="task_title">{title}</h3>

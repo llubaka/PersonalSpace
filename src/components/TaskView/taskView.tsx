@@ -59,7 +59,8 @@ const TaskView = () => {
       {tasks.map(({ task, category }: SingleTask) => {
         return (
           <Task
-            key={task.title}
+            id={task.id}
+            key={task.id}
             title={task.title}
             content={task.content}
             dateCreated={task.dateCreated}
