@@ -8,11 +8,19 @@ import { Button } from "../../Button";
 import { Input } from "../../Input";
 
 export interface TaskCreatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  id?: string;
   handleOnClose: () => void;
 }
 
-export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
-  const [task, setTask] = useState<EmptySingleTask>(createEmptyTask());
+export const TaskCreator: React.FC<TaskCreatorProps> = ({ id, handleOnClose }) => {
+  const { tasks, setTasks } = useTaskContext();
+  const initTask = () => {
+    if (!id) return createEmptyTask();
+
+    return (tasks as SingleTask[]).filter((tsk) => tsk.task.id === id)[0];
+  };
+
+  const [task, setTask] = useState<EmptySingleTask>(initTask());
   const [isValid, setIsValid] = useState({
     category: ValidationState.NEUTRAL,
     title: ValidationState.NEUTRAL,
@@ -23,8 +31,6 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
     customShadowColor: ValidationState.NEUTRAL,
   });
 
-  const { setTasks } = useTaskContext();
-
   const handleOnSubmit = useCallback(() => {
     const { isValid, notValidEntries } = validateTaskObject(task);
 
@@ -32,7 +38,15 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
       handleOnClose();
       const taskWithId = { ...task, task: { ...task.task, id: generateUUID() } };
 
-      setTasks((curr: Array<SingleTask>) => [...curr, taskWithId]);
+      if (!id) setTasks((curr: Array<SingleTask>) => [...curr, taskWithId]);
+      else
+        setTasks((curr: Array<SingleTask>) => {
+          const index = curr.findIndex((tsk) => tsk.task.id === id);
+          const copy = [...curr];
+          copy[index] = task as any;
+
+          return copy;
+        });
     }
 
     notValidEntries.forEach((nve) => {
@@ -40,7 +54,7 @@ export const TaskCreator: React.FC<TaskCreatorProps> = ({ handleOnClose }) => {
         return { ...curr, [nve]: ValidationState.NOT_VALID };
       });
     });
-  }, [handleOnClose, setTasks, task]);
+  }, [handleOnClose, id, setTasks, task]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsValid((curr) => {
@@ -188,6 +202,7 @@ const TaskCreatorStyled = styled.div<{}>(() => {
       padding: "20px",
     },
     ".task_creator_container": {
+      zIndex: 2,
       position: "absolute",
       width: "100%",
       height: "100%",

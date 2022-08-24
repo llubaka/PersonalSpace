@@ -1,6 +1,8 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { useTaskContext } from "../../contexts/taskContext";
 import { SingleTask } from "../../utils/interfaces";
+import { OrderButton } from "../OrderButton";
 import { Task } from "../Task/task";
 
 enum OrderType {
@@ -52,10 +54,13 @@ const TaskView = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleOrder}> Date order by start</button>
-      <button onClick={handleOrderByEndDate}> Date order by end</button>
-      <button> Category order</button>
+    <TaskViewStyled>
+      <h2 className="task-heading"> Tasks </h2>
+      <div className="buttons-container">
+        <OrderButton onClick={handleOrder}> Date order by start</OrderButton>
+        <OrderButton onClick={handleOrderByEndDate}> Date order by end</OrderButton>
+        <OrderButton> Category order</OrderButton>
+      </div>
       {tasks.map(({ task, category }: SingleTask) => {
         return (
           <Task
@@ -69,8 +74,22 @@ const TaskView = () => {
           />
         );
       })}
-    </div>
+    </TaskViewStyled>
   );
 };
+
+const TaskViewStyled = styled.div<{}>(() => {
+  return {
+    ".buttons-container": {
+      margin: "6px",
+      "& > button": {
+        marginLeft: "10px",
+      },
+    },
+    ".task-heading": {
+      margin: "15px",
+    },
+  };
+});
 
 export default TaskView;
